@@ -1,0 +1,63 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+# TODO(agustin): point this at YOUR fork's own issue tracker once you have one (see the "optional:
+# put this fork on GitHub" step) — leaving it on the original repo would send bug reports about
+# YOUR changes to the original authors, who didn't make them and can't fix them.
+issueTrackerURL=""
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+# TODO(agustin): same as issueTrackerURL above — point this at your own repo or CurseForge project
+# page once it exists.
+displayURL=""
+logoFile=""
+credits="Fork of WebDisplays (https://github.com/CinemaMod/webdisplays) by montoyo, GiantLuigi4, ds58, Mysticpasta1, WaterPicker, CinemaMod Group and BrotherBill, MIT licensed. This fork adds compatibility with Sable sub-levels (Create Aeronautics, Offroad, Simulated, etc.)."
+authors="${mod_authors}"
+description='''${mod_description}'''
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="${neo_version_range}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="mcef"
+type="required"
+versionRange="[2.1.0,)"
+ordering="NONE"
+side="BOTH"
+
+# Optional — only used for the Create-contraption rendering fix in ScreenRenderer/CreateCompat.
+# WebDisplays works completely normally with this mod absent.
+[[dependencies.${mod_id}]]
+modId="create"
+type="optional"
+versionRange="[6.0.0,)"
+ordering="AFTER"
+side="CLIENT"
+
+# NOT a real dependency — Sable Companion is jar-in-jar'd straight into our own jar (see
+# build.gradle), so WebDisplays never actually needs Sable itself to be present or loaded
+# first; its no-op default makes SableCompat behave as a normal, non-Sable screen either way.
+# This entry is purely documentation/metadata for anyone reading this file, covering the
+# Sable sub-level rendering + distance fix used by Create Aeronautics vehicles/airships (see
+# ScreenRenderer/SableCompat). "optional" + no "ordering" keeps NeoForge from enforcing
+# anything here.
+[[dependencies.${mod_id}]]
+modId="sable"
+type="optional"
+versionRange="[0,)"
+ordering="NONE"
+side="CLIENT"

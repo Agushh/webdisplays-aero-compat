@@ -1,0 +1,166 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.170'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+// Minecraft 1.21.1 requires Java 21
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+// Access transformer for accessing private Minecraft fields/methods
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        // info-level avoids ~300+ MB of OpenGL GlDebug spam per session in logs/latest.log.
+        // Our own debug logging is gated on webdisplays.debug / webdisplays.audiodiag and uses
+        // INFO-level explicitly, so reducing forge console level doesn't hide WD diagnostics.
+        // To opt back in to forge's debug output, override at the CLI: gradlew runClient -Dforge.logging.console.level=debug
+        systemProperty 'forge.logging.console.level', System.getProperty('forge.logging.console.level', 'info')
+        // Forward our DEBUG / DIAG / AUDIODIAG flags from gradle to the spawned Minecraft JVM.
+        // Enable with: gradlew runClient -Dwebdisplays.debug=true -Dwebdisplays.diag=true -Dwebdisplays.audiodiag=true
+        systemProperty 'webdisplays.debug', System.getProperty('webdisplays.debug', 'false')
+        systemProperty 'webdisplays.diag', System.getProperty('webdisplays.diag', 'false')
+        systemProperty 'webdisplays.audiodiag', System.getProperty('webdisplays.audiodiag', 'false')
+        modSource project.sourceSets.main
+    }
+
+    client {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        argument '--nogui'
+    }
+
+    data {
+        arguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+}
+
+// Include generated resources
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "Keksuccino MCEF"
+        url = "https://keksuccino.github.io/maven/"
+    }
+    maven {
+        name = "cursemaven"
+        url = "https://www.cursemaven.com"
+    }
+    maven {
+        // Create's own publish repo — needed only to let net.montoyo.wd.compat.create.CreateCompat
+        // compile against Create's classes. See the "Create compat" dependency below.
+        name = "CreateMod"
+        url = "https://maven.createmod.net"
+    }
+    maven {
+        name = "ithundxr"
+        url = "https://maven.ithundxr.dev/snapshots"
+    }
+    // Sable Companion's publish repo. exclusiveContent below restricts it to only resolve that
+    // one group, same as the official install instructions at
+    // https://github.com/ryanhcode/sable-companion#getting-started
+    exclusiveContent {
+        forRepository {
+            maven { url = "https://maven.ryanhcode.dev/releases" }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
+}
+
+dependencies {
+    // NeoForge
+    implementation "net.neoforged:neoforge:${neo_version}"
+
+    // MCEF (Keksuccino's fork — CinemaMod downstream with render-thread + NeoForge fixes)
+    // Same Chromium 116.0.5845.190 as upstream; preserves com.cinemamod.mcef.* packages and modId.
+    implementation "de.keksuccino:mcef-neoforge:${mcef_version}"
+
+    // Create compat (contraption rendering) — COMPILE-TIME ONLY, intentionally. WebDisplays
+    // must keep working fine in modpacks without Create installed, so Create is never bundled
+    // and never required at runtime (that's what ScreenRenderer.CREATE_LOADED / ModList guards
+    // against). This just lets CreateCompat.java resolve Create's VirtualRenderWorld class
+    // while compiling. Double check this version matches whatever Create build your Create
+    // Aeronautics install actually pulls in (check your mods folder / modpack manifest) —
+    // if it doesn't resolve, that's a sign the version string below needs updating.
+    compileOnly "com.simibubi.create:create-${minecraft_version}:${create_version}"
+
+    // Sable compat (sub-level rendering + distance fix for Create Aeronautics and anything else
+    // built on Sable). UNLIKE the Create dependency above, this one IS bundled into our jar via
+    // jarJar — Sable Companion is designed for exactly that (it's "an extremely lightweight
+    // library... intended to be included or JiJ'd into mods"), and it ships a safe no-op default
+    // that Sable overrides at runtime only if actually installed. That means, unlike Create, we
+    // don't need any ModList/optional-dependency gymnastics for this one — see SableCompat.java.
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:[${sable_companion_version},)")) {
+        version { prefer(sable_companion_version) }
+    }
+}
+
+// Process resources - replace placeholders in neoforge.mods.toml
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+// Jar manifest
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : mod_name,
+                "Specification-Vendor"    : "CinemaMod Group",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.version,
+                "Implementation-Vendor"   : "CinemaMod Group",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

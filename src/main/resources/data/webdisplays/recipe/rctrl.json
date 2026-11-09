@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "BBB"
+  ],
+  "key": {
+    "P": {
+      "item": "webdisplays:craftcomp_peripheral"
+    },
+    "B": {
+      "item": "minecraft:oak_button"
+    }
+  },
+  "result": {
+    "id": "webdisplays:rctrl",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " Q ",
+    "QEQ",
+    " Q "
+  ],
+  "key": {
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "E": {
+      "item": "webdisplays:craftcomp_extcard"
+    }
+  },
+  "result": {
+    "id": "webdisplays:craftcomp_upgrade",
+    "count": 1
+  }
+}

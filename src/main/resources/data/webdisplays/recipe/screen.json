@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "RGB",
+    "LLL"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:glass_pane"
+    },
+    "R": {
+      "item": "minecraft:red_dye"
+    },
+    "G": {
+      "item": "minecraft:green_dye"
+    },
+    "B": {
+      "item": "minecraft:blue_dye"
+    },
+    "L": {
+      "item": "webdisplays:craftcomp_backlight"
+    }
+  },
+  "result": {
+    "id": "webdisplays:screen",
+    "count": 8
+  }
+}
