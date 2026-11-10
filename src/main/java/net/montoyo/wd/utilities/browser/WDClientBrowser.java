@@ -1,7 +1,7 @@
 package net.montoyo.wd.utilities.browser;
 
-import com.cinemamod.mcef.MCEFBrowser;
-import com.cinemamod.mcef.MCEFClient;
+import de.keksuccino.rinku.RinkuBrowser;
+import de.keksuccino.rinku.RinkuClient;
 import org.cef.event.CefMouseEvent;
 import net.montoyo.wd.entity.ScreenBlockEntity;
 import net.montoyo.wd.utilities.browser.handlers.js.queries.ElementCenterQuery;
@@ -10,7 +10,7 @@ import net.montoyo.wd.utilities.data.BlockSide;
 
 import java.util.HashMap;
 
-public class WDClientBrowser extends MCEFBrowser implements WDBrowser {
+public class WDClientBrowser extends RinkuBrowser implements WDBrowser {
     ElementCenterQuery focusedEl = new ElementCenterQuery("ActiveElement", "document.activeElement");
     ElementCenterQuery pointerLockEl =
             new ElementCenterQuery("PointerElement", "document.pointerLockElement")
@@ -21,7 +21,7 @@ public class WDClientBrowser extends MCEFBrowser implements WDBrowser {
     ScreenBlockEntity be;
     BlockSide side;
 
-    public WDClientBrowser(MCEFClient client, String url, boolean transparent) {
+    public WDClientBrowser(RinkuClient client, String url, boolean transparent) {
         super(client, url, transparent);
     }
 

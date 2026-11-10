@@ -1,18 +1,13 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
-# TODO(agustin): point this at YOUR fork's own issue tracker once you have one (see the "optional:
-# put this fork on GitHub" step) — leaving it on the original repo would send bug reports about
-# YOUR changes to the original authors, who didn't make them and can't fix them.
-issueTrackerURL=""
+issueTrackerURL="https://github.com/Agushh/webdisplays-aero-compat/issues"
 
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
-# TODO(agustin): same as issueTrackerURL above — point this at your own repo or CurseForge project
-# page once it exists.
-displayURL=""
+displayURL="https://github.com/Agushh/webdisplays-aero-compat"
 logoFile=""
 credits="Fork of WebDisplays (https://github.com/CinemaMod/webdisplays) by montoyo, GiantLuigi4, ds58, Mysticpasta1, WaterPicker, CinemaMod Group and BrotherBill, MIT licensed. This fork adds compatibility with Sable sub-levels (Create Aeronautics, Offroad, Simulated, etc.)."
 authors="${mod_authors}"
@@ -33,9 +28,9 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
-modId="mcef"
+modId="rinku"
 type="required"
-versionRange="[2.1.0,)"
+versionRange="[3.0.0,)"
 ordering="NONE"
 side="BOTH"
 

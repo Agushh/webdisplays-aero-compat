@@ -1,6 +1,6 @@
 package net.montoyo.wd.utilities.browser;
 
-import com.cinemamod.mcef.MCEF;
+import de.keksuccino.rinku.Rinku;
 import net.montoyo.wd.entity.ScreenBlockEntity;
 import net.montoyo.wd.utilities.browser.handlers.js.queries.ElementCenterQuery;
 import net.montoyo.wd.utilities.browser.handlers.js.JSQueryHandler;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface WDBrowser {
     static CefBrowser createBrowser(String url, boolean transparent) {
-        WDClientBrowser browser = new WDClientBrowser(MCEF.getClient(), url, transparent);
+        WDClientBrowser browser = new WDClientBrowser(Rinku.getClient(), url, transparent);
         browser.setCloseAllowed();
         browser.createImmediately();
         registerQueries(browser);

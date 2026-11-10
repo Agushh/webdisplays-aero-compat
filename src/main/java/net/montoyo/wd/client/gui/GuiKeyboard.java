@@ -4,7 +4,7 @@
 
 package net.montoyo.wd.client.gui;
 
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.RinkuBrowser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -142,10 +142,10 @@ public class GuiKeyboard extends WDScreen {
 
         data = tes.getScreen(side);
         CefBrowser browser = data.browser;
-        ((MCEFBrowser) browser).setCursor(CefCursorType.fromId(data.mouseType));
-        ((MCEFBrowser) browser).setCursorChangeListener((id) -> {
+        ((RinkuBrowser) browser).setCursor(CefCursorType.fromId(data.mouseType));
+        ((RinkuBrowser) browser).setCursorChangeListener((id) -> {
             data.mouseType = id;
-            ((MCEFBrowser) browser).setCursor(CefCursorType.fromId(id));
+            ((RinkuBrowser) browser).setCursor(CefCursorType.fromId(id));
         });
     }
 
@@ -158,7 +158,7 @@ public class GuiKeyboard extends WDScreen {
         //         KeyboardHandler.setOverlayShowing(false);
         KeyboardCamera.focus(null, null);
         CefBrowser browser = data.browser;
-        if (browser instanceof MCEFBrowser mcef) {
+        if (browser instanceof RinkuBrowser mcef) {
             mcef.setCursor(CefCursorType.POINTER);
             mcef.setCursorChangeListener((cursor) -> data.mouseType = cursor);
         }

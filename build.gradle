@@ -59,10 +59,6 @@ configurations {
 repositories {
     mavenLocal()
     maven {
-        name = "Keksuccino MCEF"
-        url = "https://keksuccino.github.io/maven/"
-    }
-    maven {
         name = "cursemaven"
         url = "https://www.cursemaven.com"
     }
@@ -73,6 +69,12 @@ repositories {
         url = "https://maven.createmod.net"
     }
     maven {
+        // Create's compileOnly dependency below pulls in Create's own POM, which in turn
+        // depends on "Registrate" (com.tterrag.registrate:Registrate) — Create's own
+        // build.gradle hosts that one on this separate repo, not on maven.createmod.net. Without
+        // this, Gradle resolves Create's own coordinate fine but then fails trying to resolve
+        // ITS dependency, with an error like "Could Not Resolve
+        // com.tterrag.registrate:Registrate:MC1.21-1.3.0+67".
         name = "ithundxr"
         url = "https://maven.ithundxr.dev/snapshots"
     }
@@ -93,9 +95,23 @@ dependencies {
     // NeoForge
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    // MCEF (Keksuccino's fork — CinemaMod downstream with render-thread + NeoForge fixes)
-    // Same Chromium 116.0.5845.190 as upstream; preserves com.cinemamod.mcef.* packages and modId.
-    implementation "de.keksuccino:mcef-neoforge:${mcef_version}"
+    // Rinku (Keksuccino's actively-maintained MCEF successor; browser-engine/CEF library).
+    // Package is de.keksuccino.rinku.*, modId "rinku" — migrated from the old, dead-ended
+    // mcef-neoforge:2.2.0 (modId "mcef") build. API is a near 1:1 rename of the old MCEF API
+    // (Rinku/RinkuBrowser/RinkuClient mirror MCEF/MCEFBrowser/MCEFClient method-for-method).
+    //
+    // COMPILE-TIME ONLY, via a vendored local jar — NOT a remote Maven coordinate. Unlike the
+    // old mcef-neoforge artifact (a flat "dev" jar with classes directly inside), Keksuccino's
+    // published "de.keksuccino:rinku-neoforge:${rinku_version}" Maven artifact turned out to be
+    // the exact same jar players install in mods/: a thin NeoForge mod shell whose real classes
+    // (de.keksuccino.rinku.*, and the bundled org.cef.* CEF API) live inside a nested jar-in-jar
+    // that only NeoForge's own runtime loader unpacks — so Gradle resolves it fine but javac
+    // can't see any of those classes. libs/rinku-neoforge-${rinku_version}-mod.jar below is that
+    // exact nested jar, extracted once from the real Rinku 3.0.4 release jar, so we compile
+    // against precisely what will exist at runtime. We never bundle it ourselves (same reasoning
+    // as the Create dependency right below): the player's separately-installed Rinku mod is what
+    // actually provides these classes when the game runs.
+    compileOnly files("libs/rinku-neoforge-${rinku_version}-mod.jar")
 
     // Create compat (contraption rendering) — COMPILE-TIME ONLY, intentionally. WebDisplays
     // must keep working fine in modpacks without Create installed, so Create is never bundled

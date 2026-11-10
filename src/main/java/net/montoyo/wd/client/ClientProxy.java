@@ -4,8 +4,8 @@
 
 package net.montoyo.wd.client;
 
-import com.cinemamod.mcef.MCEF;
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.Rinku;
+import de.keksuccino.rinku.RinkuBrowser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -218,7 +218,7 @@ public class ClientProxy extends SharedProxy implements ResourceManagerReloadLis
 				throw new RuntimeException(e);
 			}
 			view = WDBrowser.createBrowser(WebDisplays.applyBlacklist(webUrl), false);
-			if (view instanceof MCEFBrowser browser) {
+			if (view instanceof RinkuBrowser browser) {
 				browser.resize((int) WebDisplays.INSTANCE.padResX, (int) WebDisplays.INSTANCE.padResY);
 				browser.setCursorChangeListener((cursor) -> {
 					activeCursor = cursor;
@@ -285,9 +285,9 @@ public class ClientProxy extends SharedProxy implements ResourceManagerReloadLis
 		minePadRenderer = new MinePadRenderer();
 		laserPointerRenderer = new LaserPointerRenderer();
 
-		if (!MCEF.isInitialized()) return;
+		if (!Rinku.isInitialized()) return;
 
-		MCEF.getApp().getHandle().registerSchemeHandlerFactory(
+		Rinku.getApp().getHandle().registerSchemeHandlerFactory(
 				"webdisplays", "",
 				(browser, frame, url, request) -> {
 					// TODO: check if it's a webdisplays browser?
@@ -295,8 +295,8 @@ public class ClientProxy extends SharedProxy implements ResourceManagerReloadLis
 				}
 		);
 
-		MCEF.getClient().addDisplayHandler(DisplayHandler.INSTANCE);
-		MCEF.getClient().getHandle().addMessageRouter(CefMessageRouter.create(WDRouter.INSTANCE));
+		Rinku.getClient().addDisplayHandler(DisplayHandler.INSTANCE);
+		Rinku.getClient().getHandle().addMessageRouter(CefMessageRouter.create(WDRouter.INSTANCE));
 
 		findAdvancementToProgressField();
 	}
@@ -971,7 +971,7 @@ public class ClientProxy extends SharedProxy implements ResourceManagerReloadLis
 
 				if (wikiName != null) {
 					// Open in player's default browser via Minecraft's util. The old call used
-					// MCEF's openExampleBrowser which no longer exists; opening externally is
+					// Rinku's openExampleBrowser which no longer exists; opening externally is
 					// the standard Minecraft pattern for wiki links (used by mods like JEI).
 					try {
 						String url = "https://montoyo.net/wdwiki/index.php/" + wikiName;

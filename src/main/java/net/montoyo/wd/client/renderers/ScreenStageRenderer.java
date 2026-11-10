@@ -1,6 +1,6 @@
 package net.montoyo.wd.client.renderers;
 
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.RinkuBrowser;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.ryanhcode.sable.companion.ClientSubLevelAccess;
@@ -67,7 +67,7 @@ import static com.mojang.math.Axis.*;
  *   <li>For each chunk, scans block entities for {@link ScreenBlockEntity} instances</li>
  *   <li>Applies our own frustum check using {@code event.getFrustum()} — only draws screens
  *       that are actually in the camera's view (performance: we still cull invisible screens)</li>
- *   <li>Draws the quad with the MCEF browser texture at the screen's world position</li>
+ *   <li>Draws the quad with the Rinku browser texture at the screen's world position</li>
  * </ol>
  *
  * <p>The original {@link ScreenRenderer} is kept registered with the BE dispatcher for two
@@ -214,11 +214,11 @@ public class ScreenStageRenderer {
 			if (scr == null) continue;
 
 			boolean diag = Log.RENDER_DIAG;
-			MCEFBrowser mcefBrowser = null;
+			RinkuBrowser mcefBrowser = null;
 			int texId = 0;
 			if (!diag) {
 				if (scr.browser == null) continue;
-				if (!(scr.browser instanceof MCEFBrowser b)) continue;
+				if (!(scr.browser instanceof RinkuBrowser b)) continue;
 				if (b.getRenderer() == null || b.getRenderer().getTextureID() == 0) continue;
 				mcefBrowser = b;
 				texId = b.getRenderer().getTextureID();
@@ -323,13 +323,13 @@ public class ScreenStageRenderer {
 			if (scr == null) continue;
 
 			// In diag mode we draw the green quad regardless of browser state, so user can see
-			// the fix is working even before MCEF initializes.
+			// the fix is working even before Rinku initializes.
 			boolean diag = Log.RENDER_DIAG;
-			MCEFBrowser mcefBrowser = null;
+			RinkuBrowser mcefBrowser = null;
 			int texId = 0;
 			if (!diag) {
 				if (scr.browser == null) continue;
-				if (!(scr.browser instanceof MCEFBrowser b)) continue;
+				if (!(scr.browser instanceof RinkuBrowser b)) continue;
 				if (b.getRenderer() == null || b.getRenderer().getTextureID() == 0) continue;
 				mcefBrowser = b;
 				texId = b.getRenderer().getTextureID();

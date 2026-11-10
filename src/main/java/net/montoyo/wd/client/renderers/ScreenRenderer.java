@@ -4,7 +4,7 @@
 
 package net.montoyo.wd.client.renderers;
 
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.RinkuBrowser;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -299,11 +299,11 @@ public class ScreenRenderer implements BlockEntityRenderer<ScreenBlockEntity> {
 				continue;
 			}
 
-			if (!(scr.browser instanceof MCEFBrowser)) {
-				logStateChange(te, "EARLY:not-MCEFBrowser side=" + scr.side);
+			if (!(scr.browser instanceof RinkuBrowser)) {
+				logStateChange(te, "EARLY:not-RinkuBrowser side=" + scr.side);
 				continue;
 			}
-			MCEFBrowser mcefBrowser = (MCEFBrowser) scr.browser;
+			RinkuBrowser mcefBrowser = (RinkuBrowser) scr.browser;
 			if (mcefBrowser.getRenderer() == null || mcefBrowser.getRenderer().getTextureID() == 0) {
 				logStateChange(te, "EARLY:texture-not-ready side=" + scr.side);
 				continue;

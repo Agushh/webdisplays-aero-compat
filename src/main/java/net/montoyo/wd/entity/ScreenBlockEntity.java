@@ -4,7 +4,7 @@
 
 package net.montoyo.wd.entity;
 
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.RinkuBrowser;
 import org.cef.event.CefMouseEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -284,7 +284,7 @@ public class ScreenBlockEntity extends BlockEntity {
         scr.resetSyncState();
 
         if (level.isClientSide) {
-            // MCEF gets into a stuck state when the browser navigates to about:blank — subsequent
+            // Rinku gets into a stuck state when the browser navigates to about:blank — subsequent
             // loadURL() calls don't render. To make Turn Off → Set New URL work, close & recreate
             // the browser on ANY transition involving about:blank. Reported by BrotherBill 2026-05-29.
             // Pure URL→URL transitions still use loadURL (cheap, keeps history/cookies).
@@ -409,7 +409,7 @@ public class ScreenBlockEntity extends BlockEntity {
             return;
         }
 
-        if (scr.browser instanceof MCEFBrowser mcefBrowser) {
+        if (scr.browser instanceof RinkuBrowser mcefBrowser) {
             if (button == 1) button = 0;
             else if (button == 0) button = 1;
 
@@ -855,7 +855,7 @@ public class ScreenBlockEntity extends BlockEntity {
         }
 
         if (level.isClientSide) {
-            if (scr.browser instanceof MCEFBrowser mcefBrowser) {
+            if (scr.browser instanceof RinkuBrowser mcefBrowser) {
                 try {
                     if (text.startsWith("t")) {
                         for (int i = 1; i < text.length(); i++) {

@@ -1,6 +1,6 @@
-# WebDisplays for NeoForge 1.21.1
+# WebDisplays Fork - Aeronautics/Sable/Create Compat
 
-An unofficial vibecoded port of WebDisplays to NeoForge 1.21.1. This mod allows you to create screens in your Minecraft world and browse the internet!
+An unofficial fork of WebDisplays for NeoForge 1.21.1, with fixes for Create Aeronautics, Offroad, Simulated, and any other mod built on Sable sub-levels. This mod allows you to create screens in your Minecraft world and browse the internet — including inside moving vehicles.
 
 ## Features
 
@@ -8,24 +8,26 @@ An unofficial vibecoded port of WebDisplays to NeoForge 1.21.1. This mod allows 
 - Browse the internet from within Minecraft
 - Watch videos, view websites, and more on your custom displays
 - Multiplayer support - share screens with other players on servers
+- **Sable sub-level compatibility**: screens render and are clickable inside Create Aeronautics (and other Sable-based) vehicles, with correct pixel-accurate interaction at Sable's extreme plot-grid coordinates
+- Optional Create-contraption rendering fix (works fine without Create installed)
 
 ## Requirements
 
 - **Minecraft**: 1.21.1
 - **Mod Loader**: NeoForge 21.1.x
 - **Java**: 21
-- **MCEF**: 2.1.0+ (Required dependency - provides the Chromium Embedded Framework)
+- **Rinku**: 3.0.0+ (Required dependency - provides the Chromium Embedded Framework)
 
 ## Installation
 
 1. Install NeoForge for Minecraft 1.21.1
-2. Download and install [MCEF](https://www.curseforge.com/minecraft/mc-mods/mcef) (required dependency)
+2. Download and install [Rinku](https://www.curseforge.com/minecraft/mc-mods/rinku) (required dependency — this fork no longer uses the old, discontinued MCEF)
 3. Download WebDisplays and place it in your `mods` folder
 4. Launch Minecraft
 
 ## Credits & Attribution
 
-This is an **unofficial community port** of WebDisplays to NeoForge 1.21.1.
+This is an **unofficial community fork** of WebDisplays for NeoForge 1.21.1.
 
 ### Original Authors
 - **montoyo** - Original creator of WebDisplays
@@ -39,6 +41,12 @@ This is an **unofficial community port** of WebDisplays to NeoForge 1.21.1.
 
 ### 1.21.1 Port
 - **BrotherBill** - Ported to NeoForge 1.21.1
+
+### This Fork
+- **Agushh** - Sable sub-level compatibility (Create Aeronautics, Offroad, Simulated, etc.), Rinku migration, Create-contraption rendering fix
+
+### Dependency
+- **[Rinku](https://github.com/Keksuccino/Rinku)**, by Keksuccino — the actively-maintained successor to MCEF, provides the Chromium browser engine this mod renders with. Not bundled; install separately.
 
 ## Original Project
 
@@ -58,8 +66,8 @@ The original WebDisplays mod is also MIT licensed, allowing for modification and
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/webdisplays-1.21.1.git
-cd webdisplays-1.21.1
+git clone https://github.com/Agushh/webdisplays-aero-compat.git
+cd webdisplays-aero-compat
 
 # Build the mod
 ./gradlew build

@@ -1,8 +1,8 @@
 package net.montoyo.wd.entity;
 
-import com.cinemamod.mcef.MCEF;
-import com.cinemamod.mcef.MCEFBrowser;
-import com.cinemamod.mcef.listeners.MCEFCursorChangeListener;
+import de.keksuccino.rinku.Rinku;
+import de.keksuccino.rinku.RinkuBrowser;
+import de.keksuccino.rinku.listeners.RinkuCursorChangeListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -259,7 +259,7 @@ public class ScreenData {
             browser = WDBrowser.createBrowser(WebDisplays.applyBlacklist(url != null ? url : "https://www.google.com"), false);
 
             // set screen
-            if (browser instanceof MCEFBrowser mcefBrowser) {
+            if (browser instanceof RinkuBrowser mcefBrowser) {
                 if (rotation.isVertical)
                     mcefBrowser.resize(resolution.y, resolution.x);
                 else

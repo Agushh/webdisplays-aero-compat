@@ -4,7 +4,7 @@
 
 package net.montoyo.wd.client.gui;
 
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.RinkuBrowser;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -67,10 +67,10 @@ public class GuiMinePad extends WDScreen {
 
 		super.init();
 
-		((MCEFBrowser) pad.view).setCursor(CefCursorType.fromId(pad.activeCursor));
-		((MCEFBrowser) pad.view).setCursorChangeListener((id) -> {
+		((RinkuBrowser) pad.view).setCursor(CefCursorType.fromId(pad.activeCursor));
+		((RinkuBrowser) pad.view).setCursorChangeListener((id) -> {
 			pad.activeCursor = id;
-			((MCEFBrowser) pad.view).setCursor(CefCursorType.fromId(id));
+			((RinkuBrowser) pad.view).setCursor(CefCursorType.fromId(id));
 		});
 	}
 
@@ -105,7 +105,7 @@ public class GuiMinePad extends WDScreen {
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 			RenderSystem.disableDepthTest();
 			RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-			RenderSystem.setShaderTexture(0, ((MCEFBrowser) pad.view).getRenderer().getTextureID());
+			RenderSystem.setShaderTexture(0, ((RinkuBrowser) pad.view).getRenderer().getTextureID());
 			t = Tesselator.getInstance();
 			double x1 = vx;
 			double y1 = vy;
@@ -142,14 +142,14 @@ public class GuiMinePad extends WDScreen {
 	@Override
 	public boolean charTyped(char codePoint, int modifiers) {
 		if (pad.view != null) {
-			((MCEFBrowser) pad.view).sendKeyTyped(codePoint, modifiers);
+			((RinkuBrowser) pad.view).sendKeyTyped(codePoint, modifiers);
 			return true;
 		} else {
 			return super.charTyped(codePoint, modifiers);
 		}
 	}
 
-	/* copied from MCEF */
+	/* copied from Rinku */
 	public boolean keyChanged(int keyCode, int scanCode, int modifiers, boolean pressed) {
 		assert minecraft != null;
 		if ((modifiers & GLFW.GLFW_MOD_SHIFT) == GLFW.GLFW_MOD_SHIFT && keyCode == GLFW.GLFW_KEY_ESCAPE) {
@@ -172,12 +172,12 @@ public class GuiMinePad extends WDScreen {
 
 		if (pad.view != null) {
 			if (pressed)
-				((MCEFBrowser) pad.view).sendKeyPress(keyCode, scanCode, modifiers);
+				((RinkuBrowser) pad.view).sendKeyPress(keyCode, scanCode, modifiers);
 			else
-				((MCEFBrowser) pad.view).sendKeyRelease(keyCode, scanCode, modifiers);
+				((RinkuBrowser) pad.view).sendKeyRelease(keyCode, scanCode, modifiers);
 
 			if (pressed && key == '\n')
-				if (modifiers != 0) ((MCEFBrowser) pad.view).sendKeyTyped('\r', modifiers);
+				if (modifiers != 0) ((RinkuBrowser) pad.view).sendKeyTyped('\r', modifiers);
 			return true;
 		}
 
@@ -209,7 +209,7 @@ public class GuiMinePad extends WDScreen {
 		int sx = (int) (mx * WebDisplays.INSTANCE.padResX);
 		int sy = (int) (my * WebDisplays.INSTANCE.padResY);
 		// TODO: this doesn't work, and I don't understand why?
-		((MCEFBrowser) pad.view).sendMouseWheel(sx, sy, scrollY, (hasControlDown() && !hasAltDown() && !hasShiftDown()) ? GLFW.GLFW_MOD_CONTROL : 0);
+		((RinkuBrowser) pad.view).sendMouseWheel(sx, sy, scrollY, (hasControlDown() && !hasAltDown() && !hasShiftDown()) ? GLFW.GLFW_MOD_CONTROL : 0);
 
 		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
@@ -259,10 +259,10 @@ public class GuiMinePad extends WDScreen {
 			if (btn == -1) {
 				if (locked)
 					capturedMouse(mx * WebDisplays.INSTANCE.padResX, my * WebDisplays.INSTANCE.padResY, sx, sy);
-				else ((MCEFBrowser) pad.view).sendMouseMove(scaledX, scaledY);
+				else ((RinkuBrowser) pad.view).sendMouseMove(scaledX, scaledY);
 			} else if (pressed)
-				((MCEFBrowser) pad.view).sendMousePress(scaledX, scaledY, btn);
-			else ((MCEFBrowser) pad.view).sendMouseRelease(scaledX, scaledY, btn);
+				((RinkuBrowser) pad.view).sendMousePress(scaledX, scaledY, btn);
+			else ((RinkuBrowser) pad.view).sendMouseRelease(scaledX, scaledY, btn);
 			pad.view.setFocus(true);
 		}
 	}
@@ -301,7 +301,7 @@ public class GuiMinePad extends WDScreen {
 				minecraft.getWindow().getWindow(),
 				Minecraft.getInstance().options.rawMouseInput().get()
 		);
-		if (pad.view instanceof MCEFBrowser browser) {
+		if (pad.view instanceof RinkuBrowser browser) {
 			browser.setCursor(CefCursorType.POINTER);
 			browser.setCursorChangeListener((cursor) -> {
 				pad.activeCursor = cursor;

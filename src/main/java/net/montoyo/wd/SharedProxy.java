@@ -4,7 +4,7 @@
 
 package net.montoyo.wd;
 
-import com.cinemamod.mcef.MCEF;
+import de.keksuccino.rinku.Rinku;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -39,7 +39,7 @@ public class SharedProxy {
     }
 
     public void init() {
-        MCEF.scheduleForInit((cef) -> onCefInit());
+        Rinku.scheduleForInit((cef) -> onCefInit());
     }
 
     public void postInit() {

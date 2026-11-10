@@ -4,7 +4,7 @@
 
 package net.montoyo.wd.client.renderers;
 
-import com.cinemamod.mcef.MCEFBrowser;
+import de.keksuccino.rinku.RinkuBrowser;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -125,7 +125,7 @@ public final class MinePadRenderer implements IItemRenderer {
 				// Force ImmediatelyFast to flush its batched buffers before our custom rendering
 				ImmediatelyFastCompat.forceFlushBatching();
 
-				int textureId = ((MCEFBrowser) pd.view).getRenderer().getTextureID();
+				int textureId = ((RinkuBrowser) pd.view).getRenderer().getTextureID();
 
 				// Check if shaders are active
 				boolean shadersActive = IrisCompat.isShaderPackInUse();
